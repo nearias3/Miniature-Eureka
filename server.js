@@ -22,10 +22,21 @@ app.get('/', (req, res) =>
 );
 
 // API Routes
-
-
-app.listen(PORT, () =>
-    console.log(`App listening at https://localhost:${PORT}` )
+app.get('/api/notes', (req, res) =>
+     fs.readFile(path.join(__dirname, 'db/db.json'), 'utf8')
 );
 
-// how to add the DELETE route from the frontend to the app
+app.post('/api/notes', (req, res) => {
+    const newNote = req.body;
+    newNote.id = uuidv4();
+    fs.readFile(path.join(__dirname, 'db/db.json'), 'utf8')
+});
+
+app.delete('/api/notes/:id', (req, res) => {
+    fs.readFile(path.join(__dirname, 'db/db.json'), JSON.stringify(notes, null, 2))
+});
+
+app.listen(PORT, () =>
+    console.log(`App listening at http://localhost:${PORT}` )
+);
+
