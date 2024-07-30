@@ -1,7 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-// need to find npm package that will give each note a unique id when it's saved
+const { v4: uuidv4 } = require('uuid');
 
 const PORT = 3001;
 
@@ -16,5 +16,9 @@ app.use(express.static('public'));
 
 // API Routes
 
+
+app.listen(PORT, () =>
+    console.log(`App listening at https://localhost:${PORT}` )
+);
 
 // how to add the DELETE route from the frontend to the app
