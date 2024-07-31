@@ -49,30 +49,17 @@ app.post("/api/notes", (req, res) => {
 
 app.delete("/api/notes/:id", (req, res) => {
   const { id } = req.params;
-  console.log(`Received DELETE request for note ID: ${id}`); // Debug log
 
   fs.readFile(path.join(__dirname, "db/db.json"), "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading notes:", err);
-      res.status(500).json({ error: "Failed to read notes" });
-      return;
-    }
+    if (err) throw err;
     let notes = JSON.parse(data);
     notes = notes.filter((note) => note.id !== id);
-    console.log(
-      `Remaining notes after deletion: ${JSON.stringify(notes, null, 2)}`
-    ); // Debug log
 
     fs.writeFile(
       path.join(__dirname, "db/db.json"),
       JSON.stringify(notes, null, 2),
       (err) => {
-        if (err) {
-          console.error("Error deleting note:", err);
-          res.status(500).json({ error: "Failed to delete note" });
-          return;
-        }
-        console.log("Successfully deleted note"); // Debug log
+        if (err) throw err;
         res.json({ ok: true });
       }
     );
